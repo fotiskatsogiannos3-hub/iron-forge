@@ -1,0 +1,38 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ironforge-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: ironforge
+      MYSQL_USER: ironforge
+      MYSQL_PASSWORD: ironforge123
+    ports:
+      - "3307:3306"
+    volumes:
+      - ironforge-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    container_name: ironforge-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      JWT_SECRET: ${JWT_SECRET:-dev-only-insecure-secret-do-not-use-in-production-change-me}
+      DB_USERNAME: ${DB_USERNAME:-ironforge}
+      DB_PASSWORD: ${DB_PASSWORD:-ironforge123}
+    ports:
+      - "8080:8080"
+
+volumes:
+  ironforge-mysql-data:
