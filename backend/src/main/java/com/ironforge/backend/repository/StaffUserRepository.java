@@ -13,7 +13,7 @@ public interface StaffUserRepository extends JpaRepository<StaffUser, Long> {
 
     Page<StaffUser> findAllByDeletedFalse(Pageable pageable);
 
-    boolean existsByUsername(String username);
+    boolean existsByUsernameAndDeletedFalse(String username);
 
-    boolean existsByEmail(String email);
+    boolean existsByEmailAndDeletedFalse(String email);
 }

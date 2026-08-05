@@ -29,10 +29,10 @@ public class StaffUserServiceImpl implements StaffUserService {
     @Override
     @Transactional
     public StaffUserReadOnlyDTO createStaffUser(StaffUserInsertDTO dto) {
-        if (staffUserRepository.existsByUsername(dto.username())) {
+        if (staffUserRepository.existsByUsernameAndDeletedFalse(dto.username())) {
             throw new EntityAlreadyExistsException("StaffUser", "Username " + dto.username() + " is already taken");
         }
-        if (staffUserRepository.existsByEmail(dto.email())) {
+        if (staffUserRepository.existsByEmailAndDeletedFalse(dto.email())) {
             throw new EntityAlreadyExistsException("StaffUser", "Email " + dto.email() + " is already in use");
         }
 
@@ -53,7 +53,7 @@ public class StaffUserServiceImpl implements StaffUserService {
         Role role = roleRepository.findByName(dto.roleName())
                 .orElseThrow(() -> new EntityNotFoundException("Role", "Role '" + dto.roleName() + "' does not exist"));
 
-        if (!staffUser.getEmail().equalsIgnoreCase(dto.email()) && staffUserRepository.existsByEmail(dto.email())) {
+        if (!staffUser.getEmail().equalsIgnoreCase(dto.email()) && staffUserRepository.existsByEmailAndDeletedFalse(dto.email())) {
             throw new EntityAlreadyExistsException("StaffUser", "Email " + dto.email() + " is already in use");
         }
 
