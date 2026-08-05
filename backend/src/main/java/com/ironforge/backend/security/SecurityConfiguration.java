@@ -1,6 +1,7 @@
 package com.ironforge.backend.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -34,6 +35,9 @@ public class SecurityConfiguration {
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     private final RestAccessDeniedHandler restAccessDeniedHandler;
 
+    @Value("${allowed.origins}")
+    private List<String> allowedOrigins;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider)
             throws Exception {
@@ -63,7 +67,7 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000"));
+        configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
 

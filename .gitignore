@@ -12,6 +12,8 @@ out/
 frontend/node_modules/
 frontend/dist/
 
+.vite/
+
 .DS_Store
 .vscode/
 
