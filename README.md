@@ -34,12 +34,6 @@ Frontend: React 18, TypeScript, Vite, React Router, Axios.
 - Docker + Docker Compose
 - Node.js 20+ and npm (only needed for Option A below, or for building the frontend outside Docker)
 
-## Prerequisites
-
-- Java 21
-- Node 20+
-- Docker (for MySQL, or for running everything via Docker Compose)
-
 ## Running it locally
 
 Two ways to run this, depending on whether you want to iterate on the backend or just see
@@ -144,7 +138,7 @@ npm test
 
 There's also a Postman collection (33 requests, 52 assertions) covering the full API —
 auth, CRUD on every resource, role-based access on every protected endpoint, and the main
-error cases (validation, conflicts, not-found). It isn't part of this repo; ask if you need it.
+error cases (validation, conflicts, not-found).
 
 ## Building for deployment
 
@@ -157,23 +151,17 @@ Or just build the Docker images directly — see Option B above.
 
 ## Known limitations
 
-Left out on purpose, for a certification project on a one-month deadline rather than a
-production deployment:
-
 - **No brute-force protection on login.** `POST /api/auth/login` accepts unlimited
   attempts — no rate limiting, no lockout.
 - **`Pageable` has no max page size.** `?size=999999` would try to pull an entire table
   in one page. Would need `spring.data.web.pageable.max-page-size` set.
 - **`spring.jpa.open-in-view` is left at its default (`true`)**, which Spring logs a
   warning about on every startup. Fine here since nothing renders server-side views, but
-  the honest setting for a pure REST API is `false`.
+  the correct setting for a pure REST API is `false`.
 - **No Docker healthcheck on the `backend` service** — only `mysql` has one, so
   `depends_on: condition: service_healthy` guarantees the database is ready, not the API.
-- **No server-side search or filtering on the Subscription list** — only pagination.
+- **No server-side search or filtering on the Subscription list**, only pagination. The
   Member list does support a `search` param (matches first/last name).
-- **Frontend: no request timeout on the Axios client, no top-level error boundary.** A
-  hung backend request spins forever; an unexpected component error blanks the screen
+- **No request timeout on the frontend's Axios client, and no top-level error boundary.**
+  A hung backend request spins forever; an unexpected component error blanks the screen
   instead of showing a fallback UI.
-
-None of these affect the features the project actually needs to demonstrate — they're
-listed here so nothing is silently missing.
