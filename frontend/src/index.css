@@ -1,0 +1,115 @@
+/* ============================================================
+   IRON FORGE — Design tokens
+   Sourced 1:1 from the Figma design system documented for this
+   project. Do not introduce new colors/spacing without updating
+   the tokens below — every screen should read from these.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --color-bg: #f7f7f8;
+  --color-surface: #ffffff;
+  --color-input-bg: #f7f7f8;
+  --color-border: #e5e5e8;
+  --color-border-strong: #1a1a1a;
+
+  /* Brand / accent */
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --color-primary: #1a1a1a;
+  --color-primary-hover: #000000;
+
+  /* Text */
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b6b70;
+  --color-text-faint: #9a9aa0;
+  --color-text-on-dark: #ffffff;
+
+  /* Status badge pairs — bg / fg */
+  --status-active-bg: #eaf3de;
+  --status-active-fg: #27500a;
+  --status-expired-bg: #faeeda;
+  --status-expired-fg: #633806;
+  --status-inactive-bg: #fcebeb;
+  --status-inactive-fg: #791f1f;
+  --status-admin-bg: #e6f1fb;
+  --status-admin-fg: #0c447c;
+  --status-trainer-bg: #f3eefa;
+  --status-trainer-fg: #5b2e8c;
+
+  /* Danger */
+  --color-danger: #d92d20;
+  --color-danger-bg: #fcebeb;
+
+  /* Radius / shadow */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+  --shadow-card: 0 1px 2px rgba(16, 16, 20, 0.04), 0 1px 3px rgba(16, 16, 20, 0.06);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.35);
+
+  /* Type */
+  --font-display: 'Bebas Neue', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  font-family: var(--font-body);
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d8d8dc;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
