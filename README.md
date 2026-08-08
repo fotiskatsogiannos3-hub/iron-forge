@@ -12,8 +12,10 @@ schema and Swagger/OpenAPI docs.
 - Frontend: https://ironforge-frontend-latest.onrender.com
 - Backend / Swagger UI: https://ironforge-backend-latest.onrender.com/swagger-ui.html
 
-Seeded login: `trainer1` / `Trainer1234.!`. Hosted on Render free tier + Aiven free MySQL. The
-first request after a period of inactivity may take a few extra seconds to respond.
+Login with the seeded admin (`admin` / `admin123`, same as local) or `trainer1` /
+`Trainer1234.!`, a TRAINER account created through the app itself on the live database to
+demonstrate the role distinction. Hosted on Render free tier + Aiven free MySQL. The first
+request after a period of inactivity may take a few extra seconds to respond.
 
 ## Domain
 
