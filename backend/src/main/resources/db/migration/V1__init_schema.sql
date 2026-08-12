@@ -1,4 +1,4 @@
--- IRON FORGE — initial schema
+-- IRON FORGE initial schema
 -- Bounded contexts: Identity & Access (role, staff_user), Membership (member, subscription_plan, subscription, payment)
 
 CREATE TABLE role (

@@ -1,8 +1,7 @@
 /* ============================================================
-   IRON FORGE — Design tokens
-   Sourced 1:1 from the Figma design system documented for this
-   project. Do not introduce new colors/spacing without updating
-   the tokens below — every screen should read from these.
+   IRON FORGE design tokens
+   Shared colors, spacing and typography. Prefer these variables
+   over hard-coded values in component styles.
    ============================================================ */
 
 :root {
@@ -25,7 +24,7 @@
   --color-text-faint: #9a9aa0;
   --color-text-on-dark: #ffffff;
 
-  /* Status badge pairs — bg / fg */
+  /* Status badge pairs (bg / fg) */
   --status-active-bg: #eaf3de;
   --status-active-fg: #27500a;
   --status-expired-bg: #faeeda;

@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.regex.Pattern;
 
 /**
- * Email value object, embedded on Member (and conceptually StaffUser, which currently
- * keeps a plain column for simplicity since it isn't part of the Membership context).
- * Validates format at construction time so an invalid Email can never exist.
+ * Validates email format at construction time.
  */
 @Embeddable
 @Getter

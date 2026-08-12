@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.regex.Pattern;
 
 /**
- * PhoneNumber value object, embedded on Member.
- * Accepts digits, spaces, +, and - (kept permissive since gym members may register
- * with international numbers), with a sane minimum length.
+ * Validates phone format at construction time.
  */
 @Embeddable
 @Getter

@@ -15,11 +15,7 @@ export const reportsApi = {
   },
 }
 
-/**
- * Starts a revenue report job and polls until it's DONE or FAILED.
- * Mirrors the backend's async job pattern: kick off the job, then poll
- * instead of blocking on a single long request.
- */
+/** Poll a revenue report job until it completes or fails. */
 export async function fetchRevenueReport(
   from: string,
   to: string,

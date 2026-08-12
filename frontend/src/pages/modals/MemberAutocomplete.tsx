@@ -37,7 +37,7 @@ export function MemberAutocomplete({ id, value, onChange }: MemberAutocompletePr
     }
   }, [debouncedQuery, isOpen])
 
-  // results changed under us (new search), so any previous highlight no longer applies
+  // Reset keyboard highlight when the result list changes.
   useEffect(() => {
     setHighlightedIndex(results.length > 0 ? 0 : -1)
   }, [results])

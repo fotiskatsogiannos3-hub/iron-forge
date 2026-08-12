@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-// Keeps track of report jobs in memory while they run in the background.
-// Good enough for a single-instance deployment; a multi-instance setup would need
-// this backed by the DB or a shared cache instead.
+// In-memory job store (single-instance deployment).
 @Component
 public class ReportJobStore {
 

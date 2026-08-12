@@ -8,8 +8,7 @@ export function Sidebar() {
   const location = useLocation()
   const isAdmin = user?.role === 'ADMIN'
 
-  // a member detail page (/members/5) should still highlight "Member List";
-  // NavLink's own matching only covers exact/prefix paths, not "any id under this"
+  // Keep Member List highlighted on member detail routes (/members/:id).
   const onMemberDetail = /^\/members\/\d+/.test(location.pathname)
 
   return (

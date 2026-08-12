@@ -8,17 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-// Wraps StaffUser so Spring Security can work with it without the domain entity
-// needing to implement UserDetails itself.
+// Adapter so StaffUser does not need to implement UserDetails.
 public class StaffUserPrincipal implements UserDetails {
 
     private final StaffUser staffUser;
     private final String roleName;
 
-    // roleName is captured up front (while the loading transaction/session is still open)
-    // instead of read lazily from staffUser.getRole().getName(): callers like
-    // JwtAuthenticationFilter invoke getAuthorities() well after the Hibernate session that
-    // loaded this principal has closed, so a lazy read there throws LazyInitializationException.
+    // Eager role name avoids LazyInitializationException after the loading session closes.
     public StaffUserPrincipal(StaffUser staffUser, String roleName) {
         this.staffUser = staffUser;
         this.roleName = roleName;

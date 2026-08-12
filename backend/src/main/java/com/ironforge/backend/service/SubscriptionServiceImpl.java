@@ -33,8 +33,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final PaymentRepository paymentRepository;
     private final Mapper mapper;
 
-    // Creating a subscription and generating its payment happen together, in one
-    // transaction: a gym subscription is paid for at sign-up, not in a separate step.
+    // Subscription and its payment are created in the same transaction.
     @Override
     @Transactional
     public SubscriptionReadOnlyDTO createSubscription(SubscriptionInsertDTO dto) {

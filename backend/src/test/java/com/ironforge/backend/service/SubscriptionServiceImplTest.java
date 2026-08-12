@@ -92,8 +92,6 @@ class SubscriptionServiceImplTest {
         assertThat(result.planName()).isEqualTo("Monthly");
         assertThat(result.endDate()).isEqualTo(LocalDate.now().plusDays(30));
 
-        // the business rule under test: a Payment must be created as a side-effect of
-        // creating the Subscription, in the same call, with no separate API step
         verify(paymentRepository).save(argThat(payment ->
                 payment.getAmount().getAmount().compareTo(BigDecimal.valueOf(25).setScale(2)) == 0
                         && payment.getMethod() == PaymentMethod.CASH

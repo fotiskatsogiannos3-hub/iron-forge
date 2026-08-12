@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.UUID;
 
-// Report generation runs off the request thread: the controller kicks the job off and
-// returns a jobId immediately, the frontend polls /api/reports/{jobId} until it's done.
+// Async report jobs: controller returns a job id, client polls for the result.
 @Service
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {

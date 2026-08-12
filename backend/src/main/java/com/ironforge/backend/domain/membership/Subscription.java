@@ -11,8 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-// Immutable historical record: once created a subscription is never edited, only its
-// status can move ACTIVE -> EXPIRED/CANCELLED (still no field-by-field editing).
+// Write-once record; status may move to EXPIRED/CANCELLED but fields are not edited.
 @Entity
 @Table(name = "subscription")
 @Getter
@@ -58,9 +57,7 @@ public class Subscription {
         return endDate.isBefore(LocalDate.now());
     }
 
-    // status is only ever written to ACTIVE at creation time and never flipped by a
-    // background job, so callers that care about the current state must go through this
-    // instead of the raw, potentially-stale `status` field.
+    // Derive EXPIRED from end date; the stored status field is not updated by a scheduler.
     public SubscriptionStatus getEffectiveStatus() {
         if (status == SubscriptionStatus.ACTIVE && isExpired()) {
             return SubscriptionStatus.EXPIRED;

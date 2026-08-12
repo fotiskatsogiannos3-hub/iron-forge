@@ -1,4 +1,4 @@
-/** Formats an ISO date (yyyy-MM-dd) as DD/MM/YYYY, matching the Figma spec. */
+/** Formats an ISO date (yyyy-MM-dd) as DD/MM/YYYY. */
 export function formatDate(isoDate: string | null | undefined): string {
   if (!isoDate) return '—'
   const [year, month, day] = isoDate.split('T')[0].split('-')
@@ -45,7 +45,7 @@ export function startOfMonthIso(): string {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`
 }
 
-/** Long month-day-year label matching the Figma dashboard header, e.g. "July 30 2026". */
+/** Long month-day-year label for the dashboard header, e.g. "July 30 2026". */
 export function formatLongDate(date: Date = new Date()): string {
   return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
 }

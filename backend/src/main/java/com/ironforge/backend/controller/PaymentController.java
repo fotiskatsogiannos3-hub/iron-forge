@@ -20,8 +20,7 @@ public class PaymentController {
     private final PaymentRepository paymentRepository;
     private final Mapper mapper;
 
-    // No POST here on purpose. Payments are only ever created as a side-effect
-    // of SubscriptionService.createSubscription, never directly through the API.
+    // Read-only: payments are created when a subscription is created.
     @GetMapping("/member/{memberId}")
     public List<PaymentReadOnlyDTO> getPaymentsForMember(@PathVariable Long memberId) {
         List<Payment> payments = paymentRepository.findAllByMember_IdOrderByPaymentDateDesc(memberId);

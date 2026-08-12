@@ -64,8 +64,7 @@ public class SubscriptionPlanServiceImpl implements SubscriptionPlanService {
     @Override
     @Transactional
     public void retirePlan(Long id) {
-        // plans are reference data referenced by historical subscriptions, so "delete"
-        // from the UI just flips the active flag instead of removing the row
+        // Soft delete: keep the row for historical subscriptions.
         SubscriptionPlan plan = subscriptionPlanRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("SubscriptionPlan", id));
         plan.setActive(false);

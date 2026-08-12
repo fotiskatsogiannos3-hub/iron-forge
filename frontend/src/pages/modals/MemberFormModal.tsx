@@ -41,9 +41,6 @@ export function MemberFormModal({ mode, member, onClose, onSaved }: MemberFormMo
         setFieldErrors(fields)
       } else {
         const message = extractErrorMessage(err, 'Could not save the member')
-        // the PhoneNumber value object validates its own format and reports a plain
-        // message rather than a structured field error; recognize it here so the
-        // error still lands under the right field instead of a generic banner
         if (message.toLowerCase().includes('phone number')) {
           setFieldErrors({ phoneNumber: message })
         } else {

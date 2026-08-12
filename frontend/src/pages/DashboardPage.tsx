@@ -11,7 +11,7 @@ import { formatDate, formatLongDate, formatMoney, startOfMonthIso, todayIso } fr
 import type { MemberReadOnly } from '@/types'
 import './pages.css'
 
-// no dedicated count endpoints, so counts are derived client-side from one page
+// Dashboard counts are derived client-side (no aggregate API yet).
 const SAMPLE_SIZE = 200
 
 export function DashboardPage() {
@@ -49,9 +49,7 @@ export function DashboardPage() {
         const monthStart = startOfMonthIso()
         setNewSignupsThisMonth(recentPage.content.filter((m) => m.joinDate >= monthStart).length)
 
-        // subscriptions are immutable history and outlive a soft-deleted member, so an
-        // "active" subscription can point at a member who no longer shows up in the
-        // members list, only count subscriptions whose member is still around
+        // Only count active subs whose member is still in the fetched member set.
         const memberIds = new Set(recentPage.content.map((m) => m.id))
         setActiveSubscriptions(
           subsPage.content.filter((s) => s.status === 'ACTIVE' && memberIds.has(s.memberId)).length

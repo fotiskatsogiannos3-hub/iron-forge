@@ -12,8 +12,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-// Immutable historical record. Never edited, only created, one Payment per Subscription,
-// generated automatically as a side-effect of creating that Subscription (see SubscriptionService).
+// Created with a subscription; not updated after creation.
 @Entity
 @Table(name = "payment")
 @Getter

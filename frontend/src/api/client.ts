@@ -32,8 +32,7 @@ apiClient.interceptors.request.use((config) => {
   return config
 })
 
-// Fires when the backend rejects the token (expired/invalid) so the app can
-// drop back to the login screen instead of showing a broken authenticated view.
+// Clear session when the backend returns 401 (expired/invalid token).
 let onUnauthorized: (() => void) | null = null
 export function registerUnauthorizedHandler(handler: () => void) {
   onUnauthorized = handler
@@ -58,13 +57,7 @@ export function extractErrorMessage(error: unknown, fallback = 'Something went w
   return fallback
 }
 
-/**
- * True when the request never got a response at all: the backend is unreachable,
- * down, or the request was blocked by CORS. Distinguishing this from a real 401
- * matters most on the login screen: "wrong password" and "can't reach the server"
- * need very different messages, or the person ends up retyping a correct password
- * forever.
- */
+/** True when axios got no HTTP response (network error or CORS). */
 export function isNetworkError(error: unknown): boolean {
   return axios.isAxiosError(error) && !error.response
 }

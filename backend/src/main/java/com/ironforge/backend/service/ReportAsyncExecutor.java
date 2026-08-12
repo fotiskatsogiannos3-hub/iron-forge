@@ -11,9 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-// Separate bean (not a method on ReportServiceImpl) so that @Async actually goes through
-// the Spring AOP proxy: calling an @Async method via `this.` from within the same class
-// bypasses the proxy and runs it synchronously on the caller's thread.
+// @Async must be on a separate bean so Spring's proxy is used.
 @Component
 @RequiredArgsConstructor
 class ReportAsyncExecutor {

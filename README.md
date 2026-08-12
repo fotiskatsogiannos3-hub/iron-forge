@@ -12,17 +12,24 @@ schema and Swagger/OpenAPI docs.
 - Frontend: https://ironforge-frontend-latest.onrender.com
 - Backend / Swagger UI: https://ironforge-backend-latest.onrender.com/swagger-ui.html
 
-Login with the seeded admin (`admin` / `admin123`, same as local) or `trainer1` /
-`Trainer1234.!`, a TRAINER account created through the app itself on the live database to
-demonstrate the role distinction. Hosted on Render free tier + Aiven free MySQL. The first
-request after a period of inactivity may take a few extra seconds to respond.
+Deployed on **Render** (backend and frontend, both as Docker image-backed web services)
+with **Aiven** for MySQL (free tier) as the database, and an **UptimeRobot** monitor pinging
+the backend every few minutes to prevent Render cold starts. That ping hits
+`/swagger-ui.html`, which never touches the database, so Aiven's free-tier auto-power-off
+can still kick in on its own. The first request that actually reaches the database (e.g.
+logging in) may take noticeably longer than the ones after it.
+
+Login with the admin account (`admin` / `IronF0rge#Adm1n$26`, rotated directly on
+the live database after deployment; local dev still seeds `admin123` via Flyway, see
+"Running it locally" below) or `trainer1` / `Trainer1234.!`, a TRAINER account created
+through the app itself on the live database to demonstrate the role distinction.
 
 ## Domain
 
-Two bounded contexts:
+Main modules:
 
-- **Membership** — Member, SubscriptionPlan, Subscription, Payment
-- **Identity & Access** — StaffUser, Role
+- **Membership**: Member, SubscriptionPlan, Subscription, Payment
+- **Identity & Access**: StaffUser, Role
 
 Aggregates reference each other by ID rather than object composition. `Email`, `PhoneNumber`
 and `Money` are value objects embedded on their owning entities. `Member` and `StaffUser` are
@@ -105,13 +112,13 @@ springdoc-openapi.
 
 Frontend: React 18, TypeScript, Vite, React Router, Axios.
 
-## Prerequisites
+## Running it locally
+
+### Prerequisites
 
 - Java 21 (JDK)
 - Docker + Docker Compose
 - Node.js 20+ and npm (only needed for Option A below, or for building the frontend outside Docker)
-
-## Running it locally
 
 Two ways to run this, depending on whether you want to iterate on the backend or just see
 the whole thing working.
@@ -162,33 +169,6 @@ Tear down, including the database volume:
 docker compose down -v
 ```
 
-## Deploying to the cloud
-
-The live demo above runs on:
-
-- **Database**: Aiven for MySQL (free tier)
-- **Backend**: Render Web Service, deployed from a prebuilt Docker image (`backend/Dockerfile`)
-- **Frontend**: Render Web Service, deployed from a prebuilt Docker image (`frontend/Dockerfile`,
-  nginx serving the Vite build)
-
-Both Render services are image-backed rather than Git-backed: build and push each image to a
-registry, then point Render at `docker.io/<user>/<image>:latest`. The frontend image bakes
-`VITE_API_BASE_URL` in at build time (`--build-arg VITE_API_BASE_URL=<backend-url>`), so the
-backend must be deployed first. `ALLOWED_ORIGINS` on the backend must then be set to the
-frontend's exact Render URL for CORS to work.
-
-## Configuration
-
-Everything below has a working default for local use, you only need to set these if
-you're deploying somewhere real.
-
-| Variable | Used by | Default |
-|---|---|---|
-| `JWT_SECRET` | backend | dev-only placeholder, **must** be overridden outside local dev |
-| `DB_USERNAME` / `DB_PASSWORD` | backend, mysql | `ironforge` / `ironforge123` |
-| `ALLOWED_ORIGINS` | backend | `http://localhost:5173,http://localhost:3000` (CORS) |
-| `VITE_API_BASE_URL` | frontend | `http://localhost:8080` (build-time only, see above) |
-
 ## Auth
 
 ```
@@ -228,14 +208,43 @@ cd frontend
 npm test
 ```
 
-## Building for deployment
+## Building and deploying
+
+### Building the artifacts
 
 ```
 cd backend && ./gradlew bootJar     # backend/build/libs/backend-0.0.1-SNAPSHOT.jar
 cd frontend && npm run build        # frontend/dist/
 ```
 
-Or just build the Docker images directly, see "Deploying to the cloud" above.
+Or build the Docker images directly, see below.
+
+### Deploying to the cloud
+
+The live demo (see above) is built this way:
+
+- **Database**: Aiven for MySQL (free tier)
+- **Backend**: Render Web Service, deployed from a prebuilt Docker image (`backend/Dockerfile`)
+- **Frontend**: Render Web Service, deployed from a prebuilt Docker image (`frontend/Dockerfile`,
+  nginx serving the Vite build)
+
+Both Render services are image-backed rather than Git-backed: build and push each image to a
+registry, then point Render at `docker.io/<user>/<image>:latest`. The frontend image bakes
+`VITE_API_BASE_URL` in at build time (`--build-arg VITE_API_BASE_URL=<backend-url>`), so the
+backend must be deployed first. `ALLOWED_ORIGINS` on the backend must then be set to the
+frontend's exact Render URL for CORS to work.
+
+### Configuration
+
+Everything below has a working default for local use, you only need to set these if
+you're deploying somewhere real.
+
+| Variable | Used by | Default |
+|---|---|---|
+| `JWT_SECRET` | backend | dev-only placeholder, **must** be overridden outside local dev |
+| `DB_USERNAME` / `DB_PASSWORD` | backend, mysql | `ironforge` / `ironforge123` |
+| `ALLOWED_ORIGINS` | backend | `http://localhost:5173,http://localhost:3000` (CORS) |
+| `VITE_API_BASE_URL` | frontend | `http://localhost:8080` (build-time only, see above) |
 
 ## Known limitations
 

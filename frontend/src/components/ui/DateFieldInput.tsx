@@ -29,12 +29,7 @@ function displayToIso(display: string): string | null {
   return `${y}-${m}-${d}`
 }
 
-/**
- * A plain masked text input for DD/MM/YYYY dates, matching the Figma spec's
- * text-field date inputs. Deliberately avoids the native <input type="date">
- * (its browser-native calendar popup felt slow) in favor of instant,
- * lightweight typing with auto-inserted slashes.
- */
+/** DD/MM/YYYY text input with auto-inserted slashes. */
 export function DateFieldInput({ id, value, onChange, required, disabled }: DateFieldInputProps) {
   const [text, setText] = useState(isoToDisplay(value))
 

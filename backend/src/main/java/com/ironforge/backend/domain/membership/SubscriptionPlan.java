@@ -9,8 +9,7 @@ import lombok.Setter;
 
 import java.util.Objects;
 
-// Reference data, not soft-deletable. Plans are retired via the "active" flag instead,
-// since past subscriptions still reference the plan they were bought under.
+// Retired via the active flag; rows are kept for historical subscriptions.
 @Entity
 @Table(name = "subscription_plan")
 @Getter

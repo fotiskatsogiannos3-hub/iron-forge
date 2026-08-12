@@ -53,9 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (JwtException | IllegalArgumentException | UsernameNotFoundException e) {
-            // Invalid/expired/tampered token or unknown/deactivated user: leave the request
-            // unauthenticated instead of failing the whole request. Spring Security's access
-            // rules then reject it normally (401/403) for protected endpoints.
+            // Invalid token: leave the request unauthenticated; Spring Security returns 401/403.
             log.debug("Ignoring invalid bearer token: {}", e.getMessage());
             SecurityContextHolder.clearContext();
         }

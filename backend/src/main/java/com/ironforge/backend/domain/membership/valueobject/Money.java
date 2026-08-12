@@ -12,15 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Money value object, embedded wherever a monetary amount is stored
- * (SubscriptionPlan.price, Payment.amount). Bundles amount + currency together
- * so the two never drift apart, and keeps arithmetic (e.g. rounding) in one place.
- *
- * Usage on an owning entity:
- *   @Embedded
- *   @AttributeOverride(name = "amount", column = @Column(name = "price_amount"))
- *   @AttributeOverride(name = "currency", column = @Column(name = "price_currency"))
- *   private Money price;
+ * Amount + currency pair for plan prices and payments.
  */
 @Embeddable
 @Getter
